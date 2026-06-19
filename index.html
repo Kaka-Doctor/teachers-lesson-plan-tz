@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Resource Hub</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f8f9fb;
+      --surface: #ffffff;
+      --border: rgba(0,0,0,0.09);
+      --border-hover: rgba(0,0,0,0.22);
+      --text-primary: #111827;
+      --text-secondary: #6b7280;
+      --text-muted: #9ca3af;
+      --accent: #185FA5;
+      --accent-bg: #e6f1fb;
+      --accent-text: #0c447c;
+      --radius-md: 8px;
+      --radius-lg: 14px;
+      --radius-xl: 20px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--surface);
+      border-bottom: 0.5px solid var(--border);
+      padding: 2.5rem 1.5rem 2rem;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--accent-bg);
+      color: var(--accent-text);
+      border-radius: var(--radius-md);
+      padding: 4px 14px;
+      margin-bottom: 14px;
+    }
+
+    header h1 {
+      font-size: clamp(22px, 5vw, 34px);
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.2;
+      margin-bottom: 10px;
+      letter-spacing: -0.4px;
+    }
+
+    header p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      padding: 2.5rem 1.25rem;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+      padding-left: 2px;
+    }
+
+    /* ── CARDS GRID ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+    }
+
+    .link-card {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .link-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+    }
+
+    .link-card:active {
+      transform: scale(0.97);
+      box-shadow: none;
+    }
+
+    /* Image / icon area */
+    .card-thumb {
+      width: 100%;
+      height: 120px;
+      overflow: hidden;
+      position: relative;
+      background: #f1f3f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      padding: 8px;
+    }
+
+    .card-thumb .icon-fallback {
+      font-size: 42px;
+      line-height: 1;
+    }
+
+    /* Colour strip at top */
+    .card-strip {
+      height: 3px;
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    /* Card body */
+    .card-body {
+      padding: 14px 16px 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.35;
+    }
+
+    .card-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      text-decoration: none;
+      align-self: flex-start;
+      color: #fff;
+    }
+
+    .card-cta:hover { opacity: 0.85; }
+    .card-cta i { font-size: 13px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--surface);
+      border-top: 0.5px solid var(--border);
+      padding: 1.75rem 1.5rem;
+      text-align: center;
+    }
+
+    .footer-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-logo {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.2px;
+    }
+
+    .footer-tagline {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 4px;
+    }
+
+    .footer-links a {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .footer-links a:hover { color: var(--accent); }
+
+    .footer-links .dot {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .footer-copy {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      header { padding: 2rem 1.25rem 1.5rem; }
+    }
+
+    @media (max-width: 320px) {
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .link-card { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       HEADER — edit the badge, title, and subtitle below
+  ════════════════════════════════════════════ -->
+  <header>
+    <div class="badge">Teacher's Lesson Plan</div>
+    <h1>Create Your Lesson Plan Today</h1>
+    <p>Andaa Andalio la Somo Lako Leo</p>
+  </header>
+
+  <!-- ═══════════════════════════════════════
+       MAIN CARDS
+       For each card, edit:
+         url        → the link that opens when clicked
+         title      → name shown on the card
+         desc       → short description (optional, keep it brief)
+         imgUrl     → paste a direct image URL to show a preview image
+                      (leave as "" to show the icon instead)
+         color      → accent color for the strip and button
+         icon       → Tabler icon class (ti-world, ti-book, ti-video, etc.)
+  ════════════════════════════════════════════ -->
+  <main>
+    <div class="section-label">Click here below: - Bofya hapa chini:</div>
+    <div class="cards-grid" id="cards-grid"></div>
+  </main>
+
+  <!-- ═══════════════════════════════════════
+       FOOTER — edit name, tagline, and links below
+  ════════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Teacher's Lesson Plan</div>
+      <div class="footer-tagline">Andalio Bora kwa kila Mwalimu</div>
+      <div class="footer-links">
+        <a href="#">About</a>
+        <span class="dot">·</span>
+        <a href="#">Contact</a>
+        <span class="dot">·</span>
+        <a href="#">Privacy</a>
+      </div>
+      <div class="footer-copy">&copy; 2026 Teacher's-Lesson-Plan. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    /* ═══════════════════════════════════════════
+       EDIT YOUR 5 CARDS HERE
+       ─────────────────────────────────────────
+       url    : the full link (must start with https://)
+       title  : card heading
+       desc   : one-line description shown under the title
+       imgUrl : direct URL to a preview image — leave "" to use icon
+       color  : hex color for the accent strip + button
+       icon   : any Tabler icon name e.g. ti-world, ti-book, ti-video,
+                ti-message, ti-star, ti-pencil, ti-music, ti-heart
+    ════════════════════════════════════════════ */
+    const cards = [
+      {
+        url:    "https://harakapay.net/pay/HPMQL9WU2N",
+        title:  "Primary: English Medium 🇺🇸",
+        desc:   "Generate complete lesson plans for all primary school subjects taught in English medium.",
+        imgUrl: "https://www.socialcreator.com/srv/imgs/ti_imgs/195198_317973.png",
+        color:  "#185FA5",
+        icon:   "https://www.socialcreator.com/srv/imgs/ti_imgs/195198_317973.png"
+      },
+      {
+        url:    "https://harakapay.net/pay/HPMQLA1ALR",
+        title:  "Primary: Swahili Medium (Shule za Msingi) 🇹🇿",
+        desc:   "Tengeneza andalio la somo lolote kwa shule za msingi zinazotumia lugha ya Kiswahili.",
+        imgUrl: "https://www.socialcreator.com/srv/imgs/ti_imgs/195199_317973.png",
+        color:  "#185FA5",
+        icon:   "https://www.socialcreator.com/srv/imgs/ti_imgs/195199_317973.png"
+      },
+      {
+        url:    "https://harakapay.net/pay/HPMQLA6E4O",
+        title:  "Secondary: New Format (ENG) 🇺🇸",
+        desc:   "Create lesson plans using the latest secondary school format adopted by TIE.",
+        imgUrl: "https://www.socialcreator.com/srv/imgs/ti_imgs/195200_317973.png",
+        color:  "#0F6E56",
+        icon:   "https://www.socialcreator.com/srv/imgs/ti_imgs/195200_317973.png"
+      },
+      {
+        url:    "https://harakapay.net/pay/HPMQLAGCMN",
+        title:  "Sekondari: Mtaala Mpya (SWA) 🇹🇿",
+        desc:   "Tengeneza andalio la somo lolote kwa shule za sekondari zinazotumia lugha ya Kiswahili.",
+        imgUrl: "https://www.socialcreator.com/srv/imgs/seccs/329342_ico.png",
+        color:  "#0F6E56",
+        icon:   "https://www.socialcreator.com/srv/imgs/seccs/329342_ico.png"
+      },
+      {
+        url:    "https://harakapay.net/pay/HPMQLALMJ7",
+        title:  "Secondary: Old Format 🇺🇸 🇹🇿",
+        desc:   "For teachers who still use the traditional lesson plan format, this tool generates complete plans following the older structure.",
+        imgUrl: "https://www.socialcreator.com/srv/imgs/ti_imgs/195201_317973.png",
+        color:  "#854F0B",
+        icon:   "https://www.socialcreator.com/srv/imgs/ti_imgs/195201_317973.png"
+      }
+    ];
+
+    /* ── Render cards — no need to edit below this line ── */
+    const grid = document.getElementById("cards-grid");
+
+    cards.forEach(card => {
+      const a = document.createElement("a");
+      a.href = card.url;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.className = "link-card";
+
+      const thumb = card.imgUrl
+        ? `<div class="card-thumb">
+             <img src="${card.imgUrl}" alt="${card.title} preview"
+               loading="lazy"
+               onerror="this.parentElement.innerHTML='<span class=\\'icon-fallback\\'><i class=\\'ti ${card.icon}\\' style=\\'color:${card.color}\\'></i></span>';"
+             />
+           </div>`
+        : `<div class="card-thumb">
+             <span class="icon-fallback">
+               <i class="ti ${card.icon}" style="color:${card.color};"></i>
+             </span>
+           </div>`;
+
+      a.innerHTML = `
+        <div class="card-strip" style="background:${card.color};"></div>
+        ${thumb}
+        <div class="card-body">
+          <div class="card-title">${card.title}</div>
+          ${card.desc ? `<div class="card-desc">${card.desc}</div>` : ""}
+          <span class="card-cta" style="background:${card.color};">
+            <i class="ti ti-external-link" aria-hidden="true"></i> Open
+          </span>
+        </div>
+      `;
+
+      grid.appendChild(a);
+    });
+
+            // Disable right-click context menu
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        return false;
+    });
+
+    // Disable text selection with mouse
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+        return false;
+    });
+
+    // Disable keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        // Ctrl/Cmd + C, X, A, S, P, U (copy, cut, select all, save, print, view source)
+        if ((e.ctrlKey || e.metaKey) &&
+            (e.key === 'c' || e.key === 'x' || e.key === 'a' ||
+             e.key === 's' || e.key === 'p' || e.key === 'u')) {
+            e.preventDefault();
+            return false;
+        }
+
+        // F12 (Dev Tools)
+        if (e.key === 'F12') {
+            e.preventDefault();
+            return false;
+        }
+
+        // Ctrl/Cmd + Shift + I (Dev Tools)
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'I') {
+            e.preventDefault();
+            return false;
+        }
+
+        // Ctrl/Cmd + Shift + J (Console)
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'J') {
+            e.preventDefault();
+            return false;
+        }
+
+        // Ctrl/Cmd + Shift + C (Inspect Element)
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'C') {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+  </script>
+</body>
+</html>
+    
